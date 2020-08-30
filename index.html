@@ -4,10 +4,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Project 1: "Accio" File using TCP - CSCI 3550: Communication Networks - Spring 2020 (UNO)</title>
+  <title>Project: "Accio" File using TCP - CSCI 3550: Communication Networks - Fall 2020 (UNO)</title>
   <link rel="icon" href="img/favicon.jpe" type="image/jpe" sizes="16x16">
   <meta name="description" content="">
-  <meta name="author" content="Bhavana">
+  <meta name="author" content="Spyros">
   <link rel="canonical" href="http://web.cs.ucla.edu/project-1">
   <!-- Le styles -->
 
@@ -17,8 +17,8 @@
   <header id="header">
     <hgroup>
       <h1 id="site-title">
-        <a class="full" href="https://sites.google.com/site/spyridonmastorakis/csci3550">CSCI 3550 :Communication Networks - Spring 2020 (UNO)</a>
-        <a class="hidden-print short" href="/classes/spring20/csci3550/"></a>
+        <a class="full" href="https://sites.google.com/site/spyridonmastorakis/csci3550">CSCI 3550 :Communication Networks - Fall 2020 (UNO)</a>
+        <a class="hidden-print short" href="/classes/fall20/csci3550/"></a>
       </h1>
 
     </hgroup>
@@ -139,8 +139,8 @@
 
 <p>All implementations should be written in C++ using <a href="http://en.wikipedia.org/wiki/Berkeley_sockets">BSD sockets</a>.
 <strong>No high-level network-layer abstractions (like Boost.Asio or similar) are allowed in this project.</strong>
-You are allowed to use some high-level abstractions, including C++11 extensions, for parts that are not directly related to networking, such as string parsing, multi-threading.
-We will also accept implementations written in C, however use of C++ is preferred.</p>
+You are allowed to use some high-level abstractions, including C++11 extensions, for parts that are not directly related to networking, such as string parsing.
+We will also accept implementations written in C, but it will be the responsibility of each student to ensure that their C code works with the provided test-cases. The use of C++ is preferred and encouranged.</p>
 
 <p>The objective of this project is to learn basic operations of BSD sockets, understand implications of using the API, as well as to discover common pitfalls when working with network operations.</p>
 
@@ -159,7 +159,7 @@ We will also accept implementations written in C, however use of C++ is preferre
 
 <h3 id="server-application-specification">Server Application Specification</h3>
 
-<p>The server application MUST be <strong>multi-threaded</strong> and be compiled into the <code class="highlighter-rouge">server</code> binary, accepting two command-line arguments:</p>
+<p>The server application MUST be compiled into the <code class="highlighter-rouge">server</code> binary, accepting two command-line arguments:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$ server &lt;PORT&gt; &lt;FILE-DIR&gt;
 </code></pre>
@@ -188,11 +188,14 @@ We will also accept implementations written in C, however use of C++ is preferre
   <li>
     <p>The server should exit with code zero when receiving <code class="highlighter-rouge">SIGQUIT</code>/<code class="highlighter-rouge">SIGTERM</code> signal</p>
   </li>
-  <li>
+  <!-- <li>
     <p>The server should be able to accept and process multiple connection from clients at the same time</p>
+  </li> -->
+  <li>
+    <p>The server must count all established connections (1 for the first connection, 2 for the second, etc.).  The received file over the connection must be saved to <code class="highlighter-rouge">&lt;FILE-DIR&gt;/&lt;CONNECTION-ID&gt;.file</code> file  (e.g., <code class="highlighter-rouge">/save/1.file</code>, <code class="highlighter-rouge">/save/2.file</code>, etc.).  If the client doesn’t send any data during gracefully terminated TCP connection, the server should create an empty file with the name that corresponds to the connection number.</p>
   </li>
   <li>
-    <p>The server must count all established connections (1 for the first connect, 2 for the second, etc.).  The received file over the connection must be saved to <code class="highlighter-rouge">&lt;FILE-DIR&gt;/&lt;CONNECTION-ID&gt;.file</code> file  (e.g., <code class="highlighter-rouge">/save/1.file</code>, <code class="highlighter-rouge">/save/2.file</code>, etc.).  If the client doesn’t send any data during gracefully terminated TCP connection, the server should create an empty file with the name that corresponds to the connection number.</p>
+    <p>You can assume that the server will not need to handle and process data from multiple clients at the same time. However, a client can establish sequential connections to the server (e.g., connect to the server, send a file, disconnect, connect again, send another file, disconnect, etc.)</p>
   </li>
   <li>
     <p>The server must assume error if no data received from the client for over <code class="highlighter-rouge">10 seconds</code>.  It should abort the connection and write a single <code class="highlighter-rouge">ERROR</code> string (without end-of-line/carret-return symbol) into the corresponding file.  Note that any partial input must be discarded.</p>
@@ -259,7 +262,7 @@ We will also accept implementations written in C, however use of C++ is preferre
   </li>
 </ul>
 
-<p>Here are some hints of using multi-thread techniques to implement the server.</p>
+<!-- <p>Here are some hints of using multi-thread techniques to implement the server.</p>
 
 <ul>
   <li>For the server, you may have the main thread listening (and accepting) incoming <strong>connection requests</strong>.
@@ -274,16 +277,17 @@ We will also accept implementations written in C, however use of C++ is preferre
     </ul>
   </li>
 </ul>
-
-<p>Here are some sample codes:</p>
+-->
+<p>Here is some sample code:</p>
 
 <ul>
   <li>
     <p>A simple server that echoes back anything sent by client: <a href="https://github.com/UNO-CSCI3550/Project-1-Accio/blob/master/server.cpp">server.cpp</a>, <a href="https://github.com/UNO-CSCI3550/Project-1-Accio/blob/master/client.cpp">client.cpp</a></p>
   </li>
-  <li>
+  <!-- /container <li>
     <p>A simple multi-thread countdown: <a href="https://github.com/UNO-CSCI3550/Project-1-Accio/blob/master/multi-thread.cpp">multi-thread.cpp</a></p>
   </li>
+  -->
 </ul>
 
 <p>Other resources</p>
@@ -296,11 +300,11 @@ We will also accept implementations written in C, however use of C++ is preferre
 
 <p>The best way to guarantee full credit for the project is to do project development using a Ubuntu 16.04-based virtual machine.</p>
 
-<p>You can easily create an image in your favourite virtualization engine (VirtualBox, VMware) using the Vagrant platform and steps outlined below.</p>
+<p>You can easily create an image in your favorite virtualization engine (VirtualBox, VMware) using the Vagrant platform and steps outlined below.</p>
 
 <h3 id="set-up-vagrant-and-create-vm-instance">Set Up Vagrant and Create VM Instance</h3>
 
-<p><strong>Note that all example commands are executed on the host machine (your laptop), e.g., in <code class="highlighter-rouge">Terminal.app</code> (or <code class="highlighter-rouge">iTerm2.app</code>) on macOS, <code class="highlighter-rouge">cmd</code> in Windows, and <code class="highlighter-rouge">console</code> or <code class="highlighter-rouge">xterm</code> on Linux.  After the last step (<code class="highlighter-rouge">vagrant ssh</code>) you will get inside the virtual machine and can compile your code there.</strong></p>
+<p><strong>You are NOT required to use vagrant for your project. You are welcome to develop your project in any way you see fit. However, the provided test-cases require vagrant to work universally across different operating system platforms and hardware specifications (remember each student may have a different laptop model and/or operating system). Note that all example commands are executed on the host machine (your laptop), e.g., in <code class="highlighter-rouge">Terminal.app</code> (or <code class="highlighter-rouge">iTerm2.app</code>) on macOS, <code class="highlighter-rouge">cmd</code> in Windows, and <code class="highlighter-rouge">console</code> or <code class="highlighter-rouge">xterm</code> on Linux.  After the last step (<code class="highlighter-rouge">vagrant ssh</code>) you will get inside the virtual machine and can compile your code there.</strong></p>
 
 <ul>
   <li>
@@ -317,6 +321,7 @@ We will also accept implementations written in C, however use of C++ is preferre
         <p>Clone project template</p>
 
         <div class="highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/UNO-CSCI3550/Project-1-Accio
+cd Project-1-Accio
 </code></pre>
         </div>
       </li>
@@ -343,7 +348,7 @@ We will also accept implementations written in C, however use of C++ is preferre
   <li>
     <p>Work on your project</p>
 
-    <p>All files in <code class="highlighter-rouge">~/csci3550-proj1</code> folder on the host machine will be automatically synchronized with <code class="highlighter-rouge">/vagrant</code> folder on the virtual machine.  For example, to compile your code, you can run the following commands:</p>
+    <p>All files in your project folder on the host machine will be automatically synchronized with <code class="highlighter-rouge">/vagrant</code> folder on the virtual machine.  For example, to compile your code, you can run the following commands:</p>
 
     <div class="highlighter-rouge"><pre class="highlight"><code>  vagrant ssh
   cd /vagrant
@@ -430,45 +435,45 @@ We will also accept implementations written in C, however use of C++ is preferre
 
 <ol>
   <li>(2.5 pts) At least 3 git commits</li>
-  <li>(2.5 pts) Client handles incorrect hostname/port</li>
-  <li>(2.5 pts) Server handles incorrect port</li>
-  <li>(2.5 pts) Server handles <code class="highlighter-rouge">SIGTERM</code> / <code class="highlighter-rouge">SIGQUIT</code> signals</li>
-  <li>(5 pts) Client connects and starts transmitting a small file(500 bytes)</li>
-  <li>(5 pts) Server accepts a connection and start saving  a small file (500 bytes) and save it in <code class="highlighter-rouge">1.file</code></li>
- <!-- <li>(5 pts) Client able to successfully transmit a small file (500 bytes)</li>-->
-  <li>(10 pts) Client able to successfully transmit a medium size file (1 MiB)
+  <li>(2.5 pts, public test) Client handles incorrect hostname/port</li>
+  <li>(2.5 pts, public test) Server handles incorrect port</li>
+  <li>(2.5 pts, public test) Server handles <code class="highlighter-rouge">SIGTERM</code> / <code class="highlighter-rouge">SIGQUIT</code> signals</li>
+  <li>(5 pts, public test) Client connects and starts transmitting a file</li>
+  <li>(5 pts, public test) Server accepts a connection and start saving a file</li>
+  <li>(5 pts, public test) Client able to successfully transmit a small file (500 bytes)</li>
+  <li>(5 pts, 1 private tests) Client able to successfully transmit a medium size file (1 MiB)
     <ul>
       <li>sending in large chunks without delays</li>
     </ul>
   </li>
-  <li>(10 pts) Client able to successfully transmit a large size file (100 MiB)
+  <li>(5 pts, 1 private tests) Client able to successfully transmit a large size file (100 MiB)
     <ul>
       <li>sending in large chunks without delays</li>
     </ul>
   </li>
-  <!--<li>(5 pts) Server able to receive a small file (500 bytes) and save it in <code class="highlighter-rouge">1.file</code></li>-->
-  <li>(15 pts) Server able to receive a medium file (1 MiB bytes) and save it in <code class="highlighter-rouge">1.file</code>
+  <li>(5 pts, public test) Server able to receive a small file (500 bytes) and save it in <code class="highlighter-rouge">1.file</code></li>
+  <li>(15 pts, 2 private tests) Server able to receive a medium file (1 MiB bytes) and save it in <code class="highlighter-rouge">1.file</code>
     <ul>
-     <!-- <li>(5 pts) receiving file sent in large chunks without delays</li>
-      <li>(10 pts) receiving file sent in small chunks with delays</li>-->
+      <li>(5 pts) receiving file sent in large chunks without delays</li>
+      <li>(10 pts) receiving file sent in small chunks with delays</li>
     </ul>
   </li>
-  <li>(15 pts) Server able to receive a large file (100 MiB bytes) and save it in <code class="highlighter-rouge">1.file</code>
+  <li>(15 pts, 2 private tests) Server able to receive a large file (100 MiB bytes) and save it in <code class="highlighter-rouge">1.file</code>
     <ul>
-     <!-- <li>(5 pts) receiving file sent in large chunks without delays</li>
-      <li>(10 pts) receiving file sent in small chunks with delays</li>-->
+      <li>(5 pts) receiving file sent in large chunks without delays</li>
+      <li>(10 pts) receiving file sent in small chunks with delays</li>
     </ul>
   </li>
-  <li>(10 pts) Server can properly receive 10 small files (sent without delays) in <code class="highlighter-rouge">1.file</code>, <code class="highlighter-rouge">2.file</code>, … <code class="highlighter-rouge">10.file</code>
-    <ul>
-      <li>a single client connects sequentially</li>
-      <li>10 clients connect simultaneously (our test will ensure proper ordering of connections)</li>
-    </ul>
+  <li>(10 pts, 1 public test) Server can properly receive 10 small files (sent without delays) in <code class="highlighter-rouge">1.file</code>, <code class="highlighter-rouge">2.file</code>, … <code class="highlighter-rouge">10.file when a single client connects sequentially</code>
+  <!--  <ul> -->
+      <!-- <li>(5 pts) a single client connects sequentially</li> -->
+      <!-- <li>(5 pts) 10 clients connect simultaneously (our test will ensure proper ordering of connections)</li> -->
+    <!-- </ul> -->
   </li>
-  <li>(5 pts) Client handles abort connection attempt after 10 seconds.</li>
-  <li>(5 pts) Client aborts connection when server gets disconnected (server app or network connection is down)</li>
-  <li>(5 pts) Server aborts connection (a file should be created, containing only <code class="highlighter-rouge">ERROR</code> string) when doesn’t receive data from client for more than 10 seconds</li>
-  <li>(5 pts) Client able to successfully send and server properly receive and save large file over lossy and large delay network (we will use <code class="highlighter-rouge">tc</code> based emulation; please search for the <code class="highlighter-rouge">tc</code> Linux command).</li>
+  <li>(5 pts, public test) Client handles abort connection attempt after 10 seconds.</li>
+  <li>(5 pts, private test) Client aborts connection when server gets disconnected (server app or network connection is down)</li>
+  <li>(5 pts, private test) Server aborts connection (a file should be created, containing only <code class="highlighter-rouge">ERROR</code> string) when doesn’t receive data from client for more than 10 seconds</li>
+  <li>(5 pts, private test) Client able to successfully send and server properly receive and save large file over lossy and large delay network (we will use <code class="highlighter-rouge">tc</code> based emulation).</li>
 </ol>
 
 <h3 id="grading-hint">Grading Hint</h3>
@@ -477,12 +482,12 @@ We will also accept implementations written in C, however use of C++ is preferre
   <li>If you see 100% load on your CPU when you running your client/server, it is an indication that something is wrong and test script will legitimately (but randomly) fail.</li>
 </ul>
 
-<h3 id="deductions">Deductions</h3>
+<!-- <h3 id="deductions">Deductions</h3>
 
 <ol>
   <li>(-5 pts) The submission archive contains temporary or other non-source code file, except <code class="highlighter-rouge">README.md</code>, <code class="highlighter-rouge">Vagrantfile</code>, and files under the <code class="highlighter-rouge">.git</code> subfolder.</li>
 </ol>
-
+-->
 <!--<h3 id="extra-credit">Extra Credit</h3>
 
 <ol>
